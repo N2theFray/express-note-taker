@@ -8,15 +8,9 @@ router.get('/notes', (req, res) => {
     res.sendFile(path.join(__dirname, '../../db/db.json'));
   });
 
-router.get('/notes', (req,res) => {
-    let results = notes
-
-    res.json(results)
-    
-})
 
 function createNewNote(body, notesArray) {
-    const note = body;
+    let note = body;
     notesArray.push(note);
     fs.writeFileSync(
       path.join(__dirname, '../../db/db.json'),
@@ -26,16 +20,38 @@ function createNewNote(body, notesArray) {
   }
 
 
+//add note
 router.post('/notes', (req, res) => {
-
+let noteList = JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
+console.log(noteList)
+console.log('before')
 //random key generator
 const randomKey = nanoid(8)
-// set id based on what the next index of the array will be
 req.body.id = randomKey;
 
 
-const note = createNewNote(req.body, notes);
-res.json(notes);
+let note = createNewNote(req.body, noteList);
+console.log(noteList)
+console.log('after')
+
+res.json(note);
+});
+
+//delete note 
+router.delete("/notes/:id", (req, res) => {
+    let notesList = JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
+    const params = [req.params.id]
+
+   
+//    //filter through notes
+    notesList = notesList.filter(selected =>{
+        return selected.id != params;
+    })
+    
+    
+    //write the updated data to db.json and display the updated note
+    fs.writeFileSync("./db/db.json", JSON.stringify(notesList));
+    res.json(notesList);
 });
 
 
