@@ -13,6 +13,7 @@ https://whispering-dawn-78598.herokuapp.com/
 </br>Express
 </br>Node.js
 </br>Insomnia
+</br>Heroku
 
 ** App description
 </br> When a user clicks on the landing page take notes button it is taken to a secondary page that has an active notes section. The user is able to create, delete, and view previously created notes. The user is NOT able to edit notes as it was not required by the project details
